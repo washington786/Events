@@ -18,5 +18,11 @@ public record class RegisterDto()
     public string ConfirmPassword { get; init; } = null!;
 
     [Required]
+    [EmailAddress]
+    public string Email { get; set; } = null!;
+
+
+
+    [Required]
     public string Role { get; init; } = null!;
 }

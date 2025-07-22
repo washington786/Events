@@ -3,6 +3,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Events.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Events.Utils;
@@ -11,7 +12,7 @@ public class JwtToken(IConfiguration _configuration)
 {
     private readonly IConfiguration configuration = _configuration;
 
-    public string CreateJwtToken(Users user)
+    public string CreateJwtToken(IdentityUser user)
     {
         var jwtSettings = configuration.GetSection("JwtSettings");
 

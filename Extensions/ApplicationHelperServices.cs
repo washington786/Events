@@ -40,6 +40,8 @@ public class ApplicationHelperServices(IServiceCollection _services, IConfigurat
             options.AddPolicy("dev", (builder) => builder.WithOrigins("https://localhost:7345").AllowAnyHeader().AllowAnyMethod());
         });
 
+        // jwt configuration
+
         services.AddAuthentication("Bearer").AddJwtBearer(options =>
         {
             var jwtSettings = configuration.GetSection("JwtSettings");

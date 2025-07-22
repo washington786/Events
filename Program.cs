@@ -1,9 +1,13 @@
 using Events.Extensions;
+using Events.Utils;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // inject custom service helper
 new ApplicationHelperServices(builder.Services, builder.Configuration).AddApplicationServices();
+
+// inject jwt method
+builder.Services.AddScoped<JwtToken>();
 
 // swagger ui support services
 builder.Services.AddEndpointsApiExplorer();
