@@ -1,8 +1,10 @@
 using System;
+using System.Text;
 using Events.Data;
 using Events.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Events.Extensions;
 
@@ -36,6 +38,21 @@ public class ApplicationHelperServices(IServiceCollection _services, IConfigurat
             options.AddPolicy("Prod", (builder) => builder.WithOrigins("https://production-app.com").AllowAnyHeader().AllowAnyMethod());
 
             options.AddPolicy("dev", (builder) => builder.WithOrigins("https://localhost:7345").AllowAnyHeader().AllowAnyMethod());
+        });
+
+        services.AddAuthentication("Bearer").AddJwtBearer(options =>
+        {
+            var jwtSettings = configuration.GetSection("JwtSettings");
+            options.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuer = false,
+                ValidateAudience = false,
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
+                ValidIssuer = jwtSettings["Issuer"],
+                ValidAudience = jwtSettings["Audience"],
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["Key"]!))
+            };
         });
 
         services.AddControllers();
