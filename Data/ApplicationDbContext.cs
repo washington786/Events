@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Events.Data;
 
-public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> dbContext) : IdentityDbContext(dbContext)
+public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> dbContext) : IdentityDbContext<Users>(dbContext)
 {
 
     protected override void OnModelCreating(ModelBuilder builder)

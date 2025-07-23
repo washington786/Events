@@ -1,6 +1,7 @@
 using System;
 using System.Text;
 using Events.Data;
+using Events.DbInit;
 using Events.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -31,6 +32,8 @@ public class ApplicationHelperServices(IServiceCollection _services, IConfigurat
             options.Cookie.HttpOnly = true;
             options.Cookie.IsEssential = true;
         });
+
+        services.AddScoped<IDbInit, DbInit.DbInit>();
 
         // configuring cors
         services.AddCors(options =>

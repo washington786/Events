@@ -15,7 +15,7 @@ namespace Events.Controllers
     ApplicationDbContext dbContext,
     RoleManager<IdentityRole> roleManager,
     SignInManager<Users> signInManager,
-    AspNetUserManager<Users> userManager) : ControllerBase
+    UserManager<Users> userManager) : ControllerBase
     {
         private readonly JwtToken _jwt = jwtToken;
         private readonly ApplicationDbContext _dbCtx = dbContext;
@@ -46,12 +46,13 @@ namespace Events.Controllers
             };
 
             var results = await _userManger.CreateAsync(newUser, register.Password);
+
             if (!results.Succeeded)
             {
-                return BadRequest(new { message = "Invalid Credential entered, email/username or password!" });
+                return BadRequest(new { message = "User creation failed!", error = results.Errors.Select(e => e.Description) });
             }
 
-            return Ok(new { message = "User account successfully created." });
+            return Ok(new { message = "New User account successfully created." });
 
         }
 
